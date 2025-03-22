@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function AboutUs() {
   return (
-    <div className="bg-black text-white min-h-screen p-10">
+    <div className=" text-white min-h-screen p-10">
       {/* Header */}
       <h1 className="text-4xl font-bold text-center text-teal-400">About Us</h1>
       <p className="text-gray-300 text-center mt-2 max-w-2xl mx-auto">
