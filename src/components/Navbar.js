@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import SecondaryOutlineBtn from "./Buttons/SecondaryOutlineBtn";
 
 function Navbar() {
   const isAuthenticated = false;
@@ -37,12 +38,7 @@ function Navbar() {
       {/* Right side - Join Now/Profile button */}
       <div>
         {!isAuthenticated ? (
-          <Link
-            href="/join"
-            className="px-4 py-2 border border-secondary text-secondary rounded-lg font-bold transition duration-300  hover:outline-1 hover:outline-secondary"
-          >
-            Join Now
-          </Link>
+          <SecondaryOutlineBtn url="/join" text="Join Now" />
         ) : (
           <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500">
             Profile
