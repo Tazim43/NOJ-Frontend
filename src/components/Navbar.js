@@ -1,8 +1,12 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import SecondaryOutlineBtn from "./Buttons/SecondaryOutlineBtn";
+import AuthModal from "./Modals/AuthModal";
 
 function Navbar() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const isAuthenticated = false;
 
   return (
@@ -38,13 +42,18 @@ function Navbar() {
       {/* Right side - Join Now/Profile button */}
       <div>
         {!isAuthenticated ? (
-          <SecondaryOutlineBtn url="/join" text="Join Now" />
+          <SecondaryOutlineBtn
+            text="Join Now"
+            onClick={() => setIsModalOpen(true)}
+          />
         ) : (
           <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500">
             Profile
           </button>
         )}
       </div>
+
+      <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </nav>
   );
 }
