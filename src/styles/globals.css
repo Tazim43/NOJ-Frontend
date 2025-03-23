@@ -9,7 +9,11 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: #32bc9b;
+  --color-primary-light: #6fffd2;
+  --color-primary-dark: #00816d;
   --color-secondary: #ff784b;
+  --color-secondary-light: #ffab7a;
+  --color-secondary-dark: #c74a12;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
