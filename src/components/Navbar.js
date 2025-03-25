@@ -1,22 +1,37 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
 import SecondaryOutlineBtn from "./Buttons/SecondaryOutlineBtn";
 import AuthModal from "./Modals/AuthModal";
+import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
+import { logout } from "@/store/slices/authSlice";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const isAuthenticated = false;
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout()); // Clear user data from Redux
+    router.push("/");
+  };
 
   return (
     <nav className="flex bg-background justify-between items-center p-4 ">
       {/* Left side - Logo */}
-
       <div className="text-2xl font-bold">
         <Link href="/">NOJ</Link>
       </div>
-
       {/* Center - Navigation Links */}
       <div className="space-x-4">
         <Link
@@ -38,21 +53,41 @@ function Navbar() {
           About Us
         </Link>
       </div>
-
       {/* Right side - Join Now/Profile button */}
-      <div>
-        {!isAuthenticated ? (
+
+      <div className="flex items-center space-x-4">
+        {isMounted && user ? (
+          <>
+            {/* Profile Icon & Username */}
+            <div className="flex items-center space-x-2 text-white cursor-pointer">
+              <Image
+                src={user.avatar || "/default-avatar.png"}
+                alt="Avatar"
+                width={32} // Width of the avatar
+                height={32} // Height of the avatar
+                className="rounded-full"
+              />
+              <span className=" text-primary ">{user.username}</span>
+            </div>
+
+            {/* Divider */}
+            <span className="text-gray-500">|</span>
+
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              className="text-red-400 cursor-pointer hover:text-red-500 transition"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
           <SecondaryOutlineBtn
             text="Join Now"
             onClick={() => setIsModalOpen(true)}
           />
-        ) : (
-          <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500">
-            Profile
-          </button>
         )}
       </div>
-
       <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </nav>
   );
