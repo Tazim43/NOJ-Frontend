@@ -59,16 +59,18 @@ function Navbar() {
         {isMounted && user ? (
           <>
             {/* Profile Icon & Username */}
-            <div className="flex items-center space-x-2 text-white cursor-pointer">
-              <Image
-                src={user.avatar || "/default-avatar.png"}
-                alt="Avatar"
-                width={32} // Width of the avatar
-                height={32} // Height of the avatar
-                className="rounded-full"
-              />
-              <span className=" text-primary ">{user.username}</span>
-            </div>
+            <Link href="/dashboard">
+              <div className="flex items-center space-x-2 text-white cursor-pointer">
+                <Image
+                  src={user.avatar || "/default-avatar.png"}
+                  alt="Avatar"
+                  width={32} // Width of the avatar
+                  height={32} // Height of the avatar
+                  className="rounded-full"
+                />
+                <span className=" text-primary ">{user.username}</span>
+              </div>
+            </Link>
 
             {/* Divider */}
             <span className="text-gray-500">|</span>
