@@ -1,20 +1,25 @@
+import Link from "next/link";
 import React from "react";
 
-function Hero() {
+function Hero({ username, isLoggedIn }) {
   return (
     <section className=" text-white py-16 px-8">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
         {/* Left Side - Text Content */}
         <div className="md:w-1/2 text-center md:text-left">
-          <h1 className="text-4xl font-bold mb-4">Welcome to NaiveOJ</h1>
+          <h1 className="text-4xl font-bold mb-4">
+            {isLoggedIn ? `Welcome Back, ${username}!` : "Welcome to NaiveOJ!"}
+          </h1>
           <p className="text-lg text-gray-300 mb-6">
-            Join <span className="text-blue-400 font-semibold">NaiveOJ</span> to
-            solve challenging problems, compete in contests, and enhance your
-            coding skills. Start your journey today! 🚀
+            {isLoggedIn
+              ? `Great to have you back! You're all set to continue solving exciting challenges, improve your skills, and take part in contests. Let's dive back in and level up your coding journey! 🚀`
+              : `NaiveOJ is a platform where you can solve coding problems, take part in contests, and improve your coding skills. Get started today and take your coding journey to the next level!`}
           </p>
-          <button className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition">
-            Get Started
-          </button>
+          <Link href="/problemset">
+            <button className="bg-blue-600 cursor-pointer hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition">
+              {isLoggedIn ? "Continue Your Journey" : "Get Started"}
+            </button>
+          </Link>
         </div>
 
         {/* Right Side - Hero Image */}
