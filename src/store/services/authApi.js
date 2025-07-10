@@ -19,6 +19,13 @@ export const authApi = createApi({
       }),
     }),
 
+    getCurrentUser: builder.query({
+      query: () => ({
+        url: "/auth/me",
+        method: "GET",
+      }),
+    }),
+
     signup: builder.mutation({
       query: (credentials) => ({
         url: "/auth/register",
