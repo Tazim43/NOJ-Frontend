@@ -16,10 +16,9 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Provider store={store}>
-          <div className=" max-w-11/12 m-auto">
-            <Navbar />
-
-            {children}
+          <Navbar />
+          <div className=" max-w-11/12 m-auto ">
+            <div className="min-h-screen">{children}</div>
           </div>
           <Footer />
         </Provider>
