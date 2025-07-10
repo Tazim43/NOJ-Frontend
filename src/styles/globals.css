@@ -1,12 +1,14 @@
 @import "tailwindcss";
-
+@import "katex/dist/katex.min.css";
 :root {
   --foreground: #ffffff;
   --background: #171717;
+  --nav: #1f1f1f;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-nav: var(--nav);
   --color-foreground: var(--foreground);
   --color-primary: #32bc9b;
   --color-primary-light: #6fffd2;
