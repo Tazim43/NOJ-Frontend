@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { Provider } from "react-redux";
 import store from "@/store/store";
 import { metadata } from "./metadata";
+import UserLoader from "@/components/UserLoader";
 
 export default function RootLayout({ children }) {
   return (
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Provider store={store}>
+          <UserLoader />
           <Navbar />
           <div className=" max-w-11/12 m-auto ">
             <div className="min-h-screen">{children}</div>
