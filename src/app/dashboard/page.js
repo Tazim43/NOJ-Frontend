@@ -102,7 +102,7 @@ const Profile = () => {
     );
   }
 
-  const createdAt = new Date(user.createAt);
+  const createdAt = user?.createdAt ? new Date(user.createdAt) : null;
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -117,10 +117,12 @@ const Profile = () => {
           <div className="flex justify-center md:justify-start">
             <div className="relative w-32 h-32">
               <Image
-                src={user.avatar}
+                src={user.avatarUrl}
                 alt="Profile Picture"
-                layout="fill"
-                objectFit="cover"
+                fill
+                sizes="128px"
+                priority
+                style={{ objectFit: "cover" }}
                 className="rounded-full border-4 border-blue-500"
               />
             </div>
@@ -157,19 +159,19 @@ const Profile = () => {
               <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
                 <p className="text-sm text-gray-400">Current Rating</p>
                 <p className="text-2xl text-blue-500 font-semibold">
-                  {user.rating}
+                  {user.rating ? user.rating : "–"}
                 </p>
               </div>
               <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
                 <p className="text-sm text-gray-400">Solved Problems</p>
                 <p className="text-2xl text-green-400 font-semibold">
-                  {user.solveCount}
+                  {user.solveCount ? user.solveCount : 0}
                 </p>
               </div>
               <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
                 <p className="text-sm text-gray-400">Submissions</p>
                 <p className="text-2xl text-orange-400 font-semibold">
-                  {user.submissionCount}
+                  {user.submissionCount ? user.submissionCount : 0}
                 </p>
               </div>
               <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
