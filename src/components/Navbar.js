@@ -8,24 +8,34 @@ import Image from "next/image";
 import { logout } from "@/store/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react"; // Optional icon lib
+import { useLogoutUserMutation } from "@/store/services/authApi";
+import { closeAuthModal, openAuthModal } from "@/store/slices/authModalSlice";
 
 function Navbar() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+
   const [isMounted, setIsMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const router = useRouter();
 
+  const { user } = useSelector((state) => state.auth);
+
+  const [logoutUser] = useLogoutUserMutation();
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
-
   const handleLogout = () => {
-    dispatch(logout());
-    router.push("/");
+    try {
+      logoutUser().unwrap();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      dispatch(logout());
+      dispatch(closeAuthModal());
+      router.push("/");
+    }
   };
 
   return (
@@ -71,7 +81,7 @@ function Navbar() {
               <Link href="/dashboard">
                 <div className="flex items-center space-x-2 text-white cursor-pointer">
                   <Image
-                    src={user.avatar || "/default-avatar.png"}
+                    src={user.avatarUrl || "/default-avatar.png"}
                     alt="Avatar"
                     width={32}
                     height={32}
@@ -93,7 +103,7 @@ function Navbar() {
           ) : (
             <SecondaryOutlineBtn
               text="Join Now"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => dispatch(openAuthModal())}
             />
           )}
 
@@ -135,7 +145,7 @@ function Navbar() {
       )}
 
       {/* Auth Modal */}
-      <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AuthModal onClose={() => dispatch(closeAuthModal())} />
     </nav>
   );
 }
