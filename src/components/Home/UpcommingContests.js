@@ -18,32 +18,40 @@ const contests = [
 
 const UpcomingContests = () => {
   return (
-    <section className="text-white py-12 px-6">
+    <section className="text-white py-2 sm:py-10 md:py-12 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6">Upcoming Contests</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+          Upcoming Contests
+        </h2>
 
         {/* Contest Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {contests.length > 0 ? (
             contests.map((contest) => (
               <div
                 key={contest.id}
-                className="bg-gray-900 p-6 rounded-xl shadow-md"
+                className="bg-gray-900 p-4 sm:p-6 rounded-xl shadow-md"
               >
-                <h3 className="text-lg font-semibold">{contest.title}</h3>
-                <p className="text-gray-400 text-sm">Starts: {contest.date}</p>
-                <p className="text-gray-400 text-sm mb-4">
+                <h3 className="text-sm sm:text-lg font-semibold">
+                  {contest.title}
+                </h3>
+                <p className="text-gray-400 text-xs sm:text-sm">
+                  Starts: {contest.date}
+                </p>
+                <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">
                   Duration: {contest.duration}
                 </p>
-                <button className="border border-teal-400 text-teal-400 px-4 py-2 rounded-lg hover:bg-teal-400 hover:text-black transition">
+                <button className="border border-teal-400 text-teal-400 px-3 py-2 sm:px-4 text-xs sm:text-sm rounded-lg hover:bg-teal-400 hover:text-black transition">
                   Register
                 </button>
               </div>
             ))
           ) : (
-            <div className="bg-gray-900 p-6 rounded-xl shadow-md hover:shadow-xl transition-all text-center">
-              <h3 className="text-lg font-semibold">No Upcoming Contests</h3>
-              <p className="text-gray-400 text-sm mt-2">
+            <div className="bg-gray-900 p-4 sm:p-6 rounded-xl shadow-md hover:shadow-xl transition-all text-center">
+              <h3 className="text-sm sm:text-lg font-semibold">
+                No Upcoming Contests
+              </h3>
+              <p className="text-gray-400 text-xs sm:text-sm mt-2">
                 There are no upcoming contests at the moment. Please check back
                 later!
               </p>
@@ -52,7 +60,7 @@ const UpcomingContests = () => {
         </div>
 
         {/* View All Contests Button */}
-        <div className="mt-6">
+        <div className="mt-4 sm:mt-6">
           <SecondaryOutlineBtn url="/contests" text="View All Contests" />
         </div>
       </div>

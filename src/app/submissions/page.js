@@ -19,12 +19,14 @@ export default function SubmissionsPage() {
   if (isLoading)
     return <p className="p-4 text-white text-center">Loading submissions...</p>;
 
-  if (isError)
+  if (isError) {
+    console.error("Error fetching submissions:", error);
     return (
       <p className="p-4 text-red-500 text-center">
         Error: {error?.data?.message || error.error}
       </p>
     );
+  }
 
   return (
     <div className="p-4 sm:p-6 md:p-8 min-h-screen text-white">

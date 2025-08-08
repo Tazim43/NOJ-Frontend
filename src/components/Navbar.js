@@ -79,9 +79,17 @@ function Navbar() {
           </Link>
         </div>
 
-        {/* Right: Auth/Profile (always visible) */}
-        <div className="flex items-center space-x-4">
-          {isMounted && user ? (
+        {/* Right: Auth/Profile - Fixed width container to prevent layout shift */}
+        <div className="flex items-center space-x-4 min-w-[200px] justify-end">
+          {!isMounted ? (
+            // Loading placeholder with same dimensions
+            <div className="flex items-center space-x-4">
+              <div className="w-20 h-8 bg-gray-700 rounded animate-pulse"></div>
+              <button className="md:hidden text-white focus:outline-none">
+                <Menu size={24} />
+              </button>
+            </div>
+          ) : user ? (
             <>
               <Link href="/dashboard">
                 <div className="flex items-center space-x-2 text-white cursor-pointer">
@@ -92,33 +100,41 @@ function Navbar() {
                     height={32}
                     className="rounded-full"
                   />
-                  <span className="text-primary text-sm md:text-base ">
-                    {"Dashboard"}
+                  <span className="text-primary text-sm md:text-base whitespace-nowrap">
+                    Dashboard
                   </span>
                 </div>
               </Link>
               <span className="text-gray-500 hidden md:inline">|</span>
               <button
                 onClick={handleLogout}
-                className="text-red-400 hover:text-red-500 cursor-pointer transition text-sm md:text-base"
+                className="text-red-400 hover:text-red-500 cursor-pointer transition text-sm md:text-base whitespace-nowrap"
               >
                 Logout
               </button>
+              {/* Hamburger for mobile */}
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="md:hidden text-white focus:outline-none"
+              >
+                {menuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
             </>
           ) : (
-            <SecondaryOutlineBtn
-              text="Join Now"
-              onClick={() => dispatch(openAuthModal())}
-            />
+            <>
+              <SecondaryOutlineBtn
+                text="Join Now"
+                onClick={() => dispatch(openAuthModal())}
+              />
+              {/* Hamburger for mobile */}
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="md:hidden text-white focus:outline-none"
+              >
+                {menuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </>
           )}
-
-          {/* Hamburger for mobile */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-white focus:outline-none"
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
       </div>
 

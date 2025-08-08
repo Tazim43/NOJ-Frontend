@@ -65,17 +65,17 @@ export default function CodeEditorPanel({ id: problemId }) {
   };
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col min-h-[400px] sm:min-h-[500px] md:min-h-full">
       {/* Header */}
-      <div className="flex flex-wrap md:flex-nowrap justify-between items-center px-3 md:px-4 py-2 bg-gray-800 border-b border-gray-700 gap-2">
-        <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center px-3 md:px-4 py-2 sm:py-3 bg-gray-800 border-b border-gray-700 gap-2 sm:gap-4">
+        <div className="flex items-center justify-between sm:justify-start gap-3 md:gap-4">
           <span className="text-white font-semibold text-sm md:text-base">
             Code Editor
           </span>
           <select
             value={language}
             onChange={handleLanguageChange}
-            className="bg-gray-700 text-white px-2 py-1 rounded text-sm"
+            className="bg-gray-700 text-white px-2 py-1 rounded text-xs sm:text-sm min-w-[80px]"
           >
             <option value="cpp">C++</option>
             <option value="c">C</option>
@@ -88,32 +88,32 @@ export default function CodeEditorPanel({ id: problemId }) {
         <button
           onClick={handleSubmit}
           disabled={isLoading}
-          className="hidden md:block cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1.5 rounded transition-all"
+          className="hidden sm:block cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded transition-all disabled:opacity-50"
         >
           {isLoading ? "Submitting..." : "Submit"}
         </button>
       </div>
 
       {/* Code Editor */}
-      <div className="flex-grow min-h-[300px]">
+      <div className="flex-grow min-h-[300px] sm:min-h-[400px] md:min-h-[500px]">
         <CodeMirrorEditor
           value={code}
           height="100%"
           theme={dracula}
           extensions={[languageExtensions[language]()]}
           onChange={(value) => setCode(value)}
-          className="h-full"
+          className="h-full text-sm sm:text-base"
         />
       </div>
 
       {/* Mobile Submit Button */}
-      <div className="block md:hidden px-4 py-3 bg-gray-900 border-t border-gray-700">
+      <div className="block sm:hidden px-3 py-3 bg-gray-900 border-t border-gray-700">
         <button
           onClick={handleSubmit}
           disabled={isLoading}
-          className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded transition-all"
+          className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2.5 rounded transition-all disabled:opacity-50 font-medium"
         >
-          {isLoading ? "Submitting..." : "Submit"}
+          {isLoading ? "Submitting..." : "Submit Solution"}
         </button>
       </div>
     </div>

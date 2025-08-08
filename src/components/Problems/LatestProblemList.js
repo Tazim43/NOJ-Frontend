@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import PrimaryOutlineBtn from "../Buttons/PrimaryOutlineBtn";
 import SecondaryOutlineBtn from "../Buttons/SecondaryOutlineBtn";
 import Link from "next/link";
 import { useGetAllProblemsQuery } from "@/store/services/problemsApi";
@@ -45,38 +44,53 @@ export default function LatestProblemList() {
     );
 
   return (
-    <section className="text-white py-12 px-6">
+    <section className="text-white py-8 px-4 sm:px-6 md:px-8">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6">Latest Problems</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+          Latest Problems
+        </h2>
 
-        {/* Filter Buttons */}
-        <div className="flex gap-4 mb-6 flex-wrap">
-          {filters.map((filter, index) => (
-            <PrimaryOutlineBtn
-              key={index}
-              text={filter}
-              onClick={() => setSelectedCategory(filter)}
-              active={selectedCategory === filter}
-            />
-          ))}
+        {/* Filter Select Dropdown */}
+        <div className="mb-4 sm:mb-6">
+          <label
+            htmlFor="category-filter"
+            className="block text-xs sm:text-sm font-medium text-gray-300 mb-2"
+          >
+            Filter by Category
+          </label>
+          <select
+            id="category-filter"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="bg-gray-900 border border-gray-700 text-white rounded-lg px-3 py-1 text-sm sm:text-base focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors duration-200 min-w-[150px] sm:min-w-[200px]"
+          >
+            {filters.map((filter) => (
+              <option key={filter} value={filter} className="bg-gray-900">
+                {filter}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Problem Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-separate border-spacing-y-3">
-            <thead className="text-gray-400 text-sm uppercase">
+          <table className="w-full text-left border-separate border-spacing-y-2 sm:border-spacing-y-3">
+            <thead className="text-gray-400 text-xs sm:text-sm uppercase">
               <tr>
-                <th className="p-3">Title</th>
-                <th className="p-3">Time Limit</th>
-                <th className="p-3">Memory Limit</th>
-                <th className="p-3">Tags</th>
-                <th className="p-3">Solve Count</th>
+                <th className="p-2 sm:p-3 w-2/5 sm:w-auto">Title</th>
+                <th className="p-2 sm:p-3 w-1/6 sm:w-auto">Time</th>
+                <th className="p-2 sm:p-3 w-1/6 sm:w-auto">Memory</th>
+                <th className="p-2 sm:p-3 hidden sm:table-cell">Tags</th>
+                <th className="p-2 sm:p-3 w-1/6 sm:w-auto">Solved</th>
               </tr>
             </thead>
             <tbody>
               {filteredProblems.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center p-6 text-gray-400">
+                  <td
+                    colSpan={5}
+                    className="text-center p-4 sm:p-6 text-gray-400"
+                  >
                     No recent problems found.
                   </td>
                 </tr>
@@ -86,7 +100,7 @@ export default function LatestProblemList() {
                     key={problem._id}
                     className="bg-gray-900 hover:bg-gray-800 transition duration-200 rounded-lg"
                   >
-                    <td className="p-4 font-medium text-blue-400">
+                    <td className="p-2 sm:p-4 font-medium text-blue-400 text-sm sm:text-base w-2/5 sm:w-auto">
                       <Link
                         href={`/problemset/${problem._id}`}
                         className="hover:underline"
@@ -94,18 +108,18 @@ export default function LatestProblemList() {
                         {problem.title}
                       </Link>
                     </td>
-                    <td className="p-4 text-teal-400">
+                    <td className="p-2 sm:p-4 text-teal-400 text-xs sm:tex-sm md:text-base w-1/6 sm:w-auto">
                       {problem.timeLimit} ms
                     </td>
-                    <td className="p-4 text-teal-400">
+                    <td className="p-2 sm:p-4 text-teal-400 text-xs sm:text-sm md:text-base w-1/6 sm:w-auto">
                       {problem.memoryLimit} MB
                     </td>
-                    <td className="p-4 text-gray-300">
+                    <td className="p-2 sm:p-4 text-gray-300 text-xs sm:text-sm md:text-base hidden sm:table-cell">
                       {problem.tags.length > 0
                         ? problem.tags.join(", ")
                         : "No tags"}
                     </td>
-                    <td className="p-4 text-gray-300">
+                    <td className="p-2 sm:p-4 text-gray-300 text-xs sm:text-sm w-1/6 sm:w-auto">
                       {problem.solveCount?.toLocaleString() ?? 0}
                     </td>
                   </tr>
@@ -116,7 +130,7 @@ export default function LatestProblemList() {
         </div>
 
         {/* View All Problems Button */}
-        <div className="mt-8">
+        <div className="mt-6 sm:mt-8">
           <SecondaryOutlineBtn url="/problemset" text="View All Problems" />
         </div>
       </div>
