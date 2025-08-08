@@ -26,14 +26,19 @@ function Navbar() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
-      logoutUser().unwrap();
+      await logoutUser().unwrap();
     } catch (error) {
       console.error("Logout failed:", error);
     } finally {
+      // Always clear local state regardless of API call success
       dispatch(logout());
       dispatch(closeAuthModal());
+      // Clear any additional localStorage items if needed
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("user");
+      }
       router.push("/");
     }
   };
