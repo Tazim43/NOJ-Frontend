@@ -7,16 +7,7 @@ export const submissionsApi = createApi({
   reducerPath: "submissionApi",
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
-    prepareHeaders: (headers, { getState }) => {
-      const token =
-        typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-
-      return headers;
-    },
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     // Get all submissions by current user
