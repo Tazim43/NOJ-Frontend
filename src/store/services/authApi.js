@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setUser } from "../slices/authSlice";
+import { setUser, logout } from "../slices/authSlice";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api/v1";
@@ -20,13 +20,18 @@ export const authApi = createApi({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-
           const user = data?.data;
+
+          // Update Redux state
           dispatch(setUser(user));
-          console.log("User fetched successfully:", user);
-          localStorage.setItem("user", JSON.stringify(user));
+
+          // Handle localStorage (side effect in appropriate place)
+          if (typeof window !== "undefined") {
+            localStorage.setItem("user", JSON.stringify(user));
+          }
         } catch (error) {
-          console.error("Error fetching current user:", error);
+          // Handle error silently - user is not authenticated
+          dispatch(logout());
         }
       },
     }),
@@ -39,8 +44,14 @@ export const authApi = createApi({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         try {
           await queryFulfilled;
-          dispatch(setUser(null));
-          localStorage.removeItem("user");
+
+          // Update Redux state
+          dispatch(logout());
+
+          // Handle localStorage (side effect in appropriate place)
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("user");
+          }
         } catch (error) {
           console.error("Error logging out:", error);
         }
