@@ -8,9 +8,8 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 
 const baseTabs = [
   { name: "Profile", path: "/dashboard" },
-  { name: "Submissions", path: "/dashboard/submissions" },
-  { name: "Problemsetting", path: "/dashboard/problemsetting" },
-  { name: "Settings", path: "/dashboard/settings" },
+  { name: "My Submissions", path: "/dashboard/submissions" },
+  // { name: "Settings", path: "/dashboard/settings" },
 ];
 
 export default function DashboardLayout({ children }) {
@@ -20,8 +19,9 @@ export default function DashboardLayout({ children }) {
 
   // Add Admin tab if the user is admin
   const tabs = [...baseTabs];
-  if (user?.email === adminEmail) {
+  if (user?.role === "admin" || user?.email === adminEmail) {
     tabs.push({ name: "Admin", path: "/dashboard/admin" });
+    tabs.push({ name: "Problemsetting", path: "/dashboard/problemsetting" });
   }
 
   return (

@@ -149,6 +149,13 @@ function Navbar() {
             Problemset
           </Link>
           <Link
+            href="/submissions"
+            className="hover:text-gray-300"
+            onClick={() => setMenuOpen(false)}
+          >
+            Submissions
+          </Link>
+          <Link
             href="/contests"
             className="hover:text-gray-300"
             onClick={() => setMenuOpen(false)}

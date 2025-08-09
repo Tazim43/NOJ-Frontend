@@ -78,6 +78,8 @@ export default function SettingsPage() {
     setIsSubmitting(false);
   };
 
+  return null;
+
   return (
     <div className="max-w-6xl mx-auto px-4 text-white">
       <form

@@ -96,7 +96,11 @@ export default function Problemset() {
                 filteredProblems.map((problem) => (
                   <tr
                     key={problem._id}
-                    className="bg-gray-900 hover:bg-gray-800 transition duration-200 rounded-lg"
+                    className={`${
+                      problem.isSolvedByCurrentUser
+                        ? "bg-green-900/30 hover:bg-green-800/40"
+                        : "bg-gray-900 hover:bg-gray-800"
+                    } transition duration-200 rounded-lg`}
                   >
                     <td className="p-2 sm:p-4 font-medium text-blue-400 text-sm sm:text-base w-2/5 sm:w-auto">
                       <Link
