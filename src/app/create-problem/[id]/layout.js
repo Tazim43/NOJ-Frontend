@@ -24,13 +24,8 @@ export default function ProblemDetailsLayout({ children }) {
 
   return (
     <div className="max-w-6xl mx-auto px-2 sm:px-6 py-8 text-white">
-      {/* Problem Title and Done Button */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold">Divide By</h1>
-      </div>
-
       {/* Tab Navigation */}
-      <div className="flex flex-wrap border-b border-gray-700 mb-10">
+      <div className="flex flex-wrap mt-2 md:mt-4 border-b border-gray-700 mb-10">
         {resolvedTabs.map((tab) => {
           const isActive = pathname === tab.resolvedPath;
 
