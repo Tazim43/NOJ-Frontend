@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
 import PrimaryOutlineBtn from "@/components/Buttons/PrimaryOutlineBtn";
 import CodeMirrorEditor from "@uiw/react-codemirror";
@@ -14,6 +14,7 @@ import {
   useCreateSolutionMutation,
   useDeleteSolutionMutation,
 } from "@/store/services/solutionsApi";
+import { useGetProblemByIdQuery } from "@/store/services/problemsApi";
 
 const languageMap = {
   105: "cpp",
@@ -162,7 +163,8 @@ function ViewSourceModal({ sourceCode, languageId, onClose }) {
 }
 
 export default function SolutionsPage({ params }) {
-  const problemId = params?.problemId || "67c33d5137b721517c7a19c0";
+  const resolvedParams = use(params);
+  const problemId = resolvedParams?.id;
 
   const {
     data: solutions,
@@ -179,11 +181,6 @@ export default function SolutionsPage({ params }) {
   const [showViewModal, setShowViewModal] = useState(false);
   const [viewSourceCode, setViewSourceCode] = useState("");
   const [viewLangId, setViewLangId] = useState(105);
-
-  if (!problemId)
-    return <p className="text-red-500">No problem ID provided.</p>;
-  if (isLoading) return <p className="text-white">Loading solutions...</p>;
-  if (isError) return <p className="text-red-500">Failed to load solutions.</p>;
 
   const primarySolution =
     solutions && solutions.length > 0 ? solutions[0] : null;
@@ -210,7 +207,9 @@ export default function SolutionsPage({ params }) {
   return (
     <div className="p-4 md:p-8 min-h-screen text-white max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-semibold">Solution Files</h2>
+        <h2 className="text-3xl font-semibold">
+          Solution Files for Problem {problemId}
+        </h2>
         <PrimaryOutlineBtn
           text="Add Solution"
           onClick={() => setShowAddModal(true)}
@@ -218,7 +217,13 @@ export default function SolutionsPage({ params }) {
         />
       </div>
 
-      {!solutions || solutions.length === 0 ? (
+      {!problemId ? (
+        <p className="text-red-500">No problem ID provided.</p>
+      ) : isLoading ? (
+        <p className="text-white">Loading solutions...</p>
+      ) : isError ? (
+        <p className="text-red-500">Failed to load solutions.</p>
+      ) : !solutions || solutions.length === 0 ? (
         <p>No solutions available for this problem.</p>
       ) : (
         <table className="w-full border-separate border-spacing-y-3 text-sm md:text-base">
