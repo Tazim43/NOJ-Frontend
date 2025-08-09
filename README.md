@@ -71,51 +71,57 @@ NaiveOJ Frontend is a comprehensive web application that provides an intuitive i
 
 ### Homepage
 
-![Homepage](screenshots/homepage.png)
+![Homepage](public/screenshots/Homepage.png)
 
 _Modern and intuitive landing page showcasing platform overview and quick access to core features._
 
-### Problems Page
+### Problem Page
 
-![Problems Page](screenshots/problems-page.png)
+![Problem Page](public/screenshots/ProblemPage.png)
 
-_Comprehensive problem listing with advanced filtering, difficulty indicators, and solved status tracking._
+_Individual problem interface with detailed statement and integrated code submission functionality._
 
-### Problem Detail Page
+### Problem Settings Page
 
-![Problem Detail](screenshots/problem-detail.png)
+![Problem Settings Page](public/screenshots/problemsettingPage.png)
 
-_Clean problem statement interface with integrated code editor and submission functionality._
+_Administrative interface for configuring problem parameters and test case management._
+
+### Problem Statement Page
+
+![Problem Statement Page](public/screenshots/ProblemStatementPage.png)
+
+_Clean and focused problem statement viewer with comprehensive problem details and constraints._
+
+### User Profile
+
+![User Profile](public/screenshots/Profile.png)
+
+_Personalized user profile displaying statistics, achievements, and account information._
+
+### Submission Details
+
+![Submission Details](public/screenshots/SubmissionDetails.png)
+
+_Detailed submission analysis with verdict, execution metrics, and code review capabilities._
 
 ### Submissions Page
 
-![Submissions Page](screenshots/submissions-page.png)
+![Submissions Page](public/screenshots/SubmissionsPage.png)
 
-_Detailed submission history with verdict status, execution time, and memory usage analytics._
+_Comprehensive submission history with filtering options and performance analytics._
 
-### Contest Page
+### Test Case Page
 
-![Contest Page](screenshots/contest-page.png)
+![Test Case Page](public/screenshots/testcasePage.png)
 
-_Live contest interface featuring real-time leaderboard and contest-specific problem access._
+_Test case management interface for problem creators and administrators._
 
-### User Dashboard
+### View Source Modal
 
-![User Dashboard](screenshots/user-dashboard.png)
+![View Source Modal](public/screenshots/viewSourceModal.png)
 
-_Personalized dashboard displaying submission statistics, progress tracking, and achievement overview._
-
-### Admin Panel
-
-![Admin Panel](screenshots/admin-panel.png)
-
-_Comprehensive administrative interface for user management, system monitoring, and content moderation._
-
-### Code Editor
-
-![Code Editor](screenshots/code-editor.png)
-
-_Feature-rich code editor with syntax highlighting, multiple language support, and theme customization._
+_Code viewing modal with syntax highlighting and comparison tools for submission analysis._
 
 ## 🚀 Getting Started
 
