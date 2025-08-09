@@ -10,6 +10,14 @@ export const submissionsApi = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
+    // Get all submissions with pagination
+    getAllSubmissions: builder.query({
+      query: ({ page = 1, limit = 10 } = {}) => ({
+        url: "/submissions",
+        params: { page, limit },
+      }),
+    }),
+
     // Get all submissions by current user
     getMySubmissions: builder.query({
       query: () => "/submissions/my",
@@ -35,6 +43,7 @@ export const submissionsApi = createApi({
 });
 
 export const {
+  useGetAllSubmissionsQuery,
   useGetMySubmissionsQuery,
   useGetSubmissionByIdQuery,
   useSubmitSolutionMutation,

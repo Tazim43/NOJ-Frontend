@@ -1,3 +1,3 @@
-export default function Layout({ children }) {
+export default function SubmissionsLayout({ children }) {
   return <div>{children}</div>;
 }
