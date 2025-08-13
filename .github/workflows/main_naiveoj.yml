@@ -21,7 +21,7 @@ jobs:
           node-version: "22.x"
 
       - name: Install dependencies
-        run: npm ci --production=false
+        run: npm ci
 
       - name: Build app
         run: npm run build
@@ -34,11 +34,14 @@ jobs:
       - name: Prune dev dependencies
         run: npm prune --production
 
-      # Upload only what is needed for production
+      # Prepare deployment package
       - name: Prepare artifact
         run: |
           mkdir deploy
           cp -R .next package.json node_modules public deploy/
+          # Optional: include env file if needed
+          if [ -f .env.production ]; then cp .env.production deploy/; fi
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -57,6 +60,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          path: deploy
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -70,4 +74,4 @@ jobs:
         with:
           app-name: "naiveoj"
           slot-name: "Production"
-          package: .
+          package: deploy
