@@ -7,7 +7,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import "katex/dist/katex.min.css";
 import { useGetProblemByIdQuery } from "@/store/services/problemsApi";
-import { useGetAllTestcasesQuery } from "@/store/services/testcasesApi";
+import { useGetAllSampleTestcasesQuery } from "@/store/services/testcasesApi";
 
 const CodeEditorPanel = dynamic(
   () => import("@/components/CodeEditor/CodeEditorPanel.js"),
@@ -36,12 +36,12 @@ export default function ProblemPage() {
 
   const { data: problem, isLoading, isError } = useGetProblemByIdQuery(id);
 
-  // Fetch all testcases for this problem
+  // Fetch only sample testcases for this problem
   const {
-    data: testcases,
+    data: sampleTestcases,
     isLoading: testcasesLoading,
     isError: testcasesError,
-  } = useGetAllTestcasesQuery(id, {
+  } = useGetAllSampleTestcasesQuery(id, {
     skip: !id,
   });
 
@@ -84,8 +84,8 @@ export default function ProblemPage() {
       </div>
     );
 
-  // Filter sample testcases
-  const sampleTests = testcases?.filter((test) => test.isSample) || [];
+  // Sample testcases are now directly fetched from the API
+  const sampleTests = sampleTestcases || [];
 
   return (
     <div className="bg-gray-900 min-h-screen text-white flex flex-col">

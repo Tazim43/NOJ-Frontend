@@ -15,6 +15,10 @@ export const testcasesApi = createApi({
       query: (problemId) => `/testcases/problem/${problemId}`,
     }),
 
+    getAllSampleTestcases: builder.query({
+      query: (problemId) => `/testcases/sample/problem/${problemId}`,
+    }),
+
     getTestcaseById: builder.query({
       query: ({ problemId, testcaseId }) =>
         `/testcases/problem/${problemId}/testcase/${testcaseId}`,
@@ -47,6 +51,7 @@ export const testcasesApi = createApi({
 
 export const {
   useGetAllTestcasesQuery,
+  useGetAllSampleTestcasesQuery,
   useGetTestcaseByIdQuery,
   useCreateTestcaseMutation,
   useUpdateTestcaseMutation,
