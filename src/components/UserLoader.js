@@ -23,8 +23,11 @@ export default function UserLoader() {
         ) {
           const storedUser = JSON.parse(storedUserData);
           if (storedUser && typeof storedUser === "object") {
-            dispatch(setUser(storedUser));
-            dispatch(closeAuthModal());
+            // Only set user if not already logged out in Redux
+            if (!user) {
+              dispatch(setUser(storedUser));
+              dispatch(closeAuthModal());
+            }
           }
         }
       } catch (error) {
@@ -34,7 +37,7 @@ export default function UserLoader() {
         setHasCheckedStorage(true);
       }
     }
-  }, [dispatch, hasCheckedStorage]);
+  }, [dispatch, hasCheckedStorage, user]);
 
   // Only fetch from API if no user exists and we've checked localStorage
   const shouldSkipQuery = !!user || !hasCheckedStorage;

@@ -10,7 +10,11 @@ export default function ContestPage() {
   const [activeTab, setActiveTab] = useState("upcoming");
   const [page, setPage] = useState(1);
   const user = useSelector((state) => state.auth.user);
-  const isAdmin = user?.role === "admin" || user?.role === "super-admin";
+  const isAdmin =
+    user?.role === "admin" ||
+    user?.role === "super-admin" ||
+    user?.email === "tazim0877@gmail.com" ||
+    user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
   const { data, isLoading, isError } = useGetAllContestsQuery({
     status: activeTab,

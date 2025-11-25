@@ -43,20 +43,23 @@ export const authApi = createApi({
         method: "POST",
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        // Clear state immediately, don't wait for API
+        dispatch(logout());
+
+        // Clear localStorage immediately
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("user");
+          localStorage.clear(); // Clear all storage to be safe
+        }
+
         try {
           await queryFulfilled;
-
-          // Update Redux state
-          dispatch(logout());
-
-          // Handle localStorage (side effect in appropriate place)
-          if (typeof window !== "undefined") {
-            localStorage.removeItem("user");
-          }
         } catch (error) {
           console.error("Error logging out:", error);
+          // Still consider logout successful on client side
         }
       },
+      invalidatesTags: ["User"],
     }),
   }),
 });
