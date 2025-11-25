@@ -9,41 +9,11 @@ import { closeAuthModal } from "@/store/slices/authModalSlice";
 export default function UserLoader() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const [hasCheckedStorage, setHasCheckedStorage] = useState(false);
 
-  // Check localStorage on mount
-  useEffect(() => {
-    if (typeof window !== "undefined" && !hasCheckedStorage) {
-      try {
-        const storedUserData = localStorage.getItem("user");
-        if (
-          storedUserData &&
-          storedUserData !== "undefined" &&
-          storedUserData !== "null"
-        ) {
-          const storedUser = JSON.parse(storedUserData);
-          if (storedUser && typeof storedUser === "object") {
-            // Only set user if not already logged out in Redux
-            if (!user) {
-              dispatch(setUser(storedUser));
-              dispatch(closeAuthModal());
-            }
-          }
-        }
-      } catch (error) {
-        console.warn("Invalid user data in localStorage, clearing...");
-        localStorage.removeItem("user");
-      } finally {
-        setHasCheckedStorage(true);
-      }
-    }
-  }, [dispatch, hasCheckedStorage, user]);
-
-  // Only fetch from API if no user exists and we've checked localStorage
-  const shouldSkipQuery = !!user || !hasCheckedStorage;
-
+  // Always fetch from API on mount if no user in Redux
+  // Cookies will be sent automatically with credentials: 'include'
   const { isSuccess, data, isError } = useGetCurrentUserQuery(undefined, {
-    skip: shouldSkipQuery,
+    skip: !!user,
   });
 
   // Handle successful API response (authApi already handles localStorage)
@@ -58,7 +28,7 @@ export default function UserLoader() {
   useEffect(() => {
     if (isError) {
       // Silently handle error - user is not authenticated
-      dispatch(closeAuthModal());
+      // Don't close auth modal here - let the error handling in authApi handle it
     }
   }, [isError, dispatch]);
 

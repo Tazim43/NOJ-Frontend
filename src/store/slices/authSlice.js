@@ -1,30 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const getInitialUser = () => {
-  if (typeof window !== "undefined") {
-    try {
-      const storedUserData = localStorage.getItem("user");
-      if (
-        storedUserData &&
-        storedUserData !== "undefined" &&
-        storedUserData !== "null"
-      ) {
-        const parsedUser = JSON.parse(storedUserData);
-        if (parsedUser && typeof parsedUser === "object") {
-          return parsedUser;
-        }
-      }
-    } catch (error) {
-      console.error("Error parsing initial user data:", error);
-      // Clear invalid data
-      localStorage.removeItem("user");
-    }
-  }
-  return null;
-};
-
 const initialState = {
-  user: getInitialUser(),
+  user: null, // Always start with null, let auth/me API populate it
 };
 
 const authSlice = createSlice({

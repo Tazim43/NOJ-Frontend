@@ -23,16 +23,14 @@ export const authApi = createApi({
           const { data } = await queryFulfilled;
           const user = data?.data;
 
-          // Update Redux state
+          // Update Redux state only - cookies handle persistence
           dispatch(setUser(user));
-
-          // Handle localStorage (side effect in appropriate place)
-          if (typeof window !== "undefined") {
-            localStorage.setItem("user", JSON.stringify(user));
-          }
         } catch (error) {
-          // Handle error silently - user is not authenticated
-          dispatch(logout());
+          // Only logout on authentication errors (401/403)
+          if (error?.error?.status === 401 || error?.error?.status === 403) {
+            dispatch(logout());
+          }
+          // For other errors, don't logout - might be network issues
         }
       },
     }),
@@ -46,14 +44,9 @@ export const authApi = createApi({
         // Clear state immediately, don't wait for API
         dispatch(logout());
 
-        // Clear localStorage immediately
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("user");
-          localStorage.clear(); // Clear all storage to be safe
-        }
-
         try {
           await queryFulfilled;
+          // Backend clears cookies
         } catch (error) {
           console.error("Error logging out:", error);
           // Still consider logout successful on client side
