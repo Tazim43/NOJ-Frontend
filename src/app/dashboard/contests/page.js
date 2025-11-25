@@ -106,7 +106,7 @@ export default function ContestsManagementPage() {
               </div>
             ) : (
               <div className="bg-gray-900 border border-gray-800 rounded-lg p-8 text-center text-gray-400">
-                <p>You haven't created any contests yet.</p>
+                <p>You haven&apos;t created any contests yet.</p>
                 <Link href="/dashboard/contests/create">
                   <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
                     Create Your First Contest
@@ -119,7 +119,7 @@ export default function ContestsManagementPage() {
           {/* Registered Contests */}
           <div>
             <h3 className="text-xl font-semibold mb-4">
-              Contests I'm Participating In
+              Contests I&apos;m Participating In
             </h3>
             {registeredContests.length > 0 ? (
               <div className="space-y-4">
@@ -161,7 +161,7 @@ export default function ContestsManagementPage() {
               </div>
             ) : (
               <div className="bg-gray-900 border border-gray-800 rounded-lg p-8 text-center text-gray-400">
-                <p>You're not registered for any contests.</p>
+                <p>You&apos;re not registered for any contests.</p>
                 <Link href="/contests">
                   <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
                     Browse Contests
