@@ -20,6 +20,7 @@ export default function DashboardLayout({ children }) {
   // Add Admin tab if the user is admin
   const tabs = [...baseTabs];
   if (user?.role === "admin" || user?.email === adminEmail) {
+    tabs.push({ name: "My Contests", path: "/dashboard/contests" });
     tabs.push({ name: "Admin", path: "/dashboard/admin" });
     tabs.push({ name: "Problemsetting", path: "/dashboard/problemsetting" });
   }

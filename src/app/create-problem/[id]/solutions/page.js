@@ -17,22 +17,22 @@ import {
 import { useGetProblemByIdQuery } from "@/store/services/problemsApi";
 
 const languageMap = {
-  105: "cpp",
-  103: "c",
-  91: "java",
-  100: "python",
+  54: "cpp",
+  50: "c",
+  62: "java",
+  71: "python",
 };
 
 const defaultCodeMap = {
-  105: `#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    // Your code here\n    return 0;\n}\n`,
-  103: `#include <stdio.h>\n\nint main() {\n    // Your code here\n    return 0;\n}\n`,
-  91: `public class Main {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}\n`,
-  100: `def main():\n    # Your code here\n    pass\n\nif __name__ == "__main__":\n    main()\n`,
+  54: `#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    // Your code here\n    return 0;\n}\n`,
+  50: `#include <stdio.h>\n\nint main() {\n    // Your code here\n    return 0;\n}\n`,
+  62: `public class Main {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}\n`,
+  71: `def main():\n    # Your code here\n    pass\n\nif __name__ == "__main__":\n    main()\n`,
 };
 
 function AddSolutionModal({ problemId, onClose, onAdded }) {
   const [sourceCode, setSourceCode] = useState("");
-  const [languageId, setLanguageId] = useState(105);
+  const [languageId, setLanguageId] = useState(54);
   const [createSolution, { isLoading }] = useCreateSolutionMutation();
 
   useEffect(() => {
@@ -99,9 +99,9 @@ function AddSolutionModal({ problemId, onClose, onAdded }) {
           <CodeMirrorEditor
             value={sourceCode}
             extensions={[
-              languageId === 105 || languageId === 103
+              languageId === 54 || languageId === 50
                 ? cpp()
-                : languageId === 91
+                : languageId === 62
                 ? java()
                 : python(),
             ]}

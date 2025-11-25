@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { FaCheckCircle, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useGetAllSubmissionsQuery } from "@/store/services/submissionsApi";
+import { FaCheckCircle } from "react-icons/fa";
+import {
+  useGetContestByIdQuery,
+  useGetContestSubmissionsQuery,
+} from "@/store/services/contestsApi";
 
 const languageMap = {
   54: "C++",
@@ -12,47 +15,46 @@ const languageMap = {
   71: "Python",
 };
 
-export default function SubmissionsPage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const limit = 10;
+export default function ContestSubmissionsPage() {
+  const { id } = useParams();
 
-  const { data, isLoading, isError, error } = useGetAllSubmissionsQuery({
-    page: currentPage,
-    limit: limit,
-  });
+  const { data: contestData, isLoading: contestLoading } =
+    useGetContestByIdQuery(id);
+  const { data: submissionsData, isLoading: submissionsLoading } =
+    useGetContestSubmissionsQuery(id);
 
-  const submissions = data?.data?.submissions || [];
-  const pagination = data?.data?.pagination || {};
+  const contest = contestData?.contest;
+  const submissions = submissionsData?.data || [];
 
-  if (isLoading)
-    return <p className="p-4 text-white text-center">Loading submissions...</p>;
-
-  if (isError) {
-    console.error("Error fetching submissions:", error);
+  if (contestLoading || submissionsLoading) {
     return (
-      <p className="p-4 text-red-500 text-center">
-        Error: {error?.data?.message || error.error}
-      </p>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
     );
   }
 
-  const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= pagination.totalPages) {
-      setCurrentPage(newPage);
-    }
-  };
-
   return (
     <div className="p-2 sm:p-4 md:p-6 lg:p-8 min-h-screen text-white">
-      <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-6 px-2">
-        All Submissions
-      </h2>
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold mb-2 px-2">
+          Contest Submissions
+        </h2>
+        <h3 className="text-base sm:text-lg text-gray-400 mb-4 px-2">
+          {contest?.title}
+        </h3>
+        <Link
+          href={`/contests/${id}/arena`}
+          className="text-blue-400 hover:underline text-sm px-2 inline-block mb-6"
+        >
+          ← Back to Arena
+        </Link>
 
-      {submissions.length === 0 ? (
-        <p className="text-center text-gray-400 px-2">No submissions found.</p>
-      ) : (
-        <>
-          {/* Responsive Table View */}
+        {submissions.length === 0 ? (
+          <p className="text-center text-gray-400 px-2 py-12">
+            No submissions found for this contest.
+          </p>
+        ) : (
           <div className="w-full overflow-x-auto touch-pan-x scroll-smooth rounded-xl shadow-md border border-gray-800">
             <table className="min-w-[800px] w-full text-xs sm:text-sm lg:text-base text-left border-separate border-spacing-y-1 sm:border-spacing-y-2">
               <thead className="bg-gray-800 text-gray-400 sticky top-0 z-10">
@@ -108,7 +110,9 @@ export default function SubmissionsPage() {
                         </Link>
                       </td>
                       <td className="p-2 sm:p-3 whitespace-nowrap max-w-[120px] sm:max-w-[200px] text-xs sm:text-sm">
-                        <Link href={`/problemset/${sub.problemId._id}`}>
+                        <Link
+                          href={`/contests/${id}/problems/${sub.problemId._id}`}
+                        >
                           <button className="text-blue-400 hover:underline cursor-pointer truncate block">
                             {sub.problemId.title}
                           </button>
@@ -168,39 +172,8 @@ export default function SubmissionsPage() {
               </tbody>
             </table>
           </div>
-
-          {/* Pagination Controls */}
-          {pagination.totalPages > 1 && (
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 mt-6 px-2">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={!pagination.hasPrevPage}
-                className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-800 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition text-sm sm:text-base w-full sm:w-auto justify-center"
-              >
-                <FaChevronLeft className="text-sm" />
-                Previous
-              </button>
-
-              <span className="text-gray-300 text-sm sm:text-base text-center px-2">
-                Page {pagination.currentPage} of {pagination.totalPages}
-                <span className="hidden sm:inline">
-                  {" "}
-                  ({pagination.totalSubmissions} total)
-                </span>
-              </span>
-
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={!pagination.hasNextPage}
-                className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-800 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition text-sm sm:text-base w-full sm:w-auto justify-center"
-              >
-                Next
-                <FaChevronRight className="text-sm" />
-              </button>
-            </div>
-          )}
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 }

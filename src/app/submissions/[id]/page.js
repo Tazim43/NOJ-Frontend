@@ -19,10 +19,10 @@ const verdictStyle = (verdict) => {
 };
 
 const languageMap = {
-  105: "C++",
-  103: "C",
-  91: "Java",
-  100: "Python",
+  54: "C++",
+  50: "C",
+  62: "Java",
+  71: "Python",
 };
 
 const SubmissionDetailPage = () => {

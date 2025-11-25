@@ -23,14 +23,15 @@ const languageExtensions = {
   java: java,
 };
 
+// Judge0 Language IDs
 const Languages = {
-  c: 103,
-  cpp: 105,
-  java: 91,
-  python: 100,
+  c: 50, // C (GCC 9.2.0)
+  cpp: 54, // C++ (GCC 9.2.0)
+  java: 62, // Java (OpenJDK 13.0.1)
+  python: 71, // Python (3.8.1)
 };
 
-export default function CodeEditorPanel({ id: problemId }) {
+export default function CodeEditorPanel({ id: problemId, contestId }) {
   const [language, setLanguage] = useState("cpp");
   const [code, setCode] = useState(defaultCodes["cpp"]);
   const [submitSolution, { isLoading }] = useSubmitSolutionMutation();
@@ -47,14 +48,26 @@ export default function CodeEditorPanel({ id: problemId }) {
       const base64Code = btoa(code);
       const language_id = Languages[language];
 
-      const response = await submitSolution({
+      const payload = {
         problemId,
         source_code: base64Code,
         language_id,
-      }).unwrap();
+      };
+
+      // Add contestId if submitting during a contest
+      if (contestId) {
+        payload.contestId = contestId;
+      }
+
+      const response = await submitSolution(payload).unwrap();
 
       if (response?.data?._id) {
-        router.push(`/submissions/${response.data._id}`);
+        // Redirect based on whether it's a contest submission
+        if (contestId) {
+          router.push(`/contests/${contestId}/arena`);
+        } else {
+          router.push(`/submissions/${response.data._id}`);
+        }
       } else {
         throw new Error("Submission ID not found in response.");
       }
